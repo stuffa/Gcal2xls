@@ -1,6 +1,13 @@
 *.class
+./bin/*
+./target/*
+./settings/*
+*~
+*.swp
+
+
 
 # Package Files #
-*.jar
+# *.jar    # I am checking in some librarys that we need
 *.war
 *.ear
