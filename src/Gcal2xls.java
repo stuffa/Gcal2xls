@@ -69,7 +69,7 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
     private JTextField username;
     private JPasswordField password;
       
-    private JList<GCalendar>       calendarChooser;
+    private JList       calendarChooser;
     private JScrollPane gCalenderscrollPane;
      
     private JDateChooser startsDateChooser;
@@ -174,7 +174,7 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         // The list of gCalenders
         // Note we haven't got a list of gCalenders yet so they can't be displayed
         // This is an empty list that we add to latter
-        calendarChooser = new JList<GCalendar>(gCalendars);
+        calendarChooser = new JList(gCalendars);
         calendarChooser.setToolTipText("This list is extracted from from your Google calendar settings");
         CheckListCellRenderer renderer = new CheckListCellRenderer();
         calendarChooser.setCellRenderer(renderer);
