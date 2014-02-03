@@ -556,15 +556,9 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         {
             setCursor(Cursor.getDefaultCursor());
         }
-    
-    	if (events == null)
-    	{
-    	    displayError("NULL Erorr", "Events retruned was NULL");
-    	    return;
-    	}
     	
        // The name of the spreadsheet
-       String fileName = dirName.getText() + System.getProperty( "file.separator") + userName + " TimeSheet From " + dateFormat.format(startsDateChooser.getDate()) + " To " + dateFormat.format(endsDateChooser.getDate());
+       String fileName = dirName.getText() + System.getProperty("file.separator") + userName + " TimeSheet From " + dateFormat.format(startsDateChooser.getDate()) + " To " + dateFormat.format(endsDateChooser.getDate());
     
        // write the data in the selected format
         try
