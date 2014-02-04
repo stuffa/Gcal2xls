@@ -105,7 +105,7 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
     
     // Localisation strings
     private Locale locale = Locale.getDefault();
-    private ResourceBundle res = ResourceBundle.getBundle("resources.strings", locale);
+    public ResourceBundle res = ResourceBundle.getBundle("resources.strings", locale);
  
    
       
@@ -578,13 +578,11 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         }
         catch (IOException e)
         {
-            // ToDo: display a error message
             displayError(res.getString("error.io"), e.getLocalizedMessage());
             return;
         }
         catch (jxl.write.WriteException e)
         {
-            // ToDo: display a error message
             displayError(res.getString("error.io"), e.getLocalizedMessage());
             return;
         }

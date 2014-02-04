@@ -41,17 +41,17 @@ public class GEvents extends LinkedList<GEvent>
     // BUT.. queries are not feeds and they are not paged, so we are left with simply 
     // setting a large number for the MAX number of results/entries returned.
     // TODO: Try and remove this hard limit if I can.
-    private static final int	MAX_ENTRIES		= 10000;
+    private static final int	MAX_ENTRIES	= 10000;
 
     private static final long serialVersionUID	= 1L;
     private String googleApiId;
     
-    private boolean excludeAllDayEvents			= false;
-    private boolean seperateAttendees			= false;
+    private boolean excludeAllDayEvents		= false;
+    private boolean seperateAttendees		= false;
     private boolean removeOwnerFromAttendees	= false;
-    private boolean truncateDates				= false;
+    private boolean truncateDates		= false;
     
-    private GContacts contacts					= null;
+    private GContacts contacts			= null;
     
 
     // The base URL for a user's calendar metafeed (needs a username appended).
@@ -348,7 +348,7 @@ public class GEvents extends LinkedList<GEvent>
         Label labelTask = new Label(col++, 0, "Task", labelFormat);
         sheet.addCell(labelTask);
         
-        Label labelCount = new Label(col++, 0, "Count", labelFormat);
+        Label labelCount = new Label(col++, 0, "Attendee Count", labelFormat);
         sheet.addCell(labelCount);
         
         Label labelHours = new Label(col++, 0, "Hours", labelFormat);
