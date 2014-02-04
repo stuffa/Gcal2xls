@@ -191,7 +191,7 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         gCalenderscrollPane.getViewport().add(calendarChooser);
         container.add(new JLabel(res.getString("calendars.list.label")));
         container.add(gCalenderscrollPane, "growx, growy");
-        container.add(new JHint(res.getString("calendars.list.tooltip")), "wrap");
+        container.add(new JHint(res.getString("calendars.list.hint")), "wrap");
         
         //Start Date Choosers
       	startsDateChooser = new JDateChooser(new Date(), DATE_FORMAT_PATTERN);
@@ -545,12 +545,12 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         }
         catch (AuthenticationException e)
         {
-            displayError(res.getString("error.auth"), res.getString("error.auth.invalid"));
+            displayError( res.getString("error.auth"), res.getString("error.auth.invalid") );
             return;
         }
         catch (IOException e)
         {
-            displayError(res.getString("error.io"), e.getLocalizedMessage());
+            displayError( res.getString("error.io"), e.getLocalizedMessage() );
             return;
         }
         catch (ServiceException e)
@@ -589,7 +589,7 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
             return;
         }
     
-       	displayMessage("Successfully Converted", "File was created successfully\n" + events.size() + " records");
+       	displayMessage(res.getString("success"), res.getString("success.more") + events.size() + res.getString("success.records"));
     }
 
     private void displayMessage(String title, String message)
@@ -638,7 +638,7 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         }
         catch (Exception e)
         {
-            displayError("IO Error", "Unable to save parameter file\n" + e.getLocalizedMessage());
+            displayError(res.getString("error.io"), res.getString("error.io.save") + e.getLocalizedMessage());
         }
 
         return;

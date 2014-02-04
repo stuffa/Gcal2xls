@@ -1,7 +1,6 @@
 *.class
-./bin/*
-./target/*
-./settings/*
+/bin
+/target
 *~
 *.swp
 
@@ -12,4 +11,3 @@
 *.war
 *.ear
 /Gcal2xls.dat
-/target
