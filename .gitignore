@@ -11,3 +11,5 @@
 # *.jar    # I am checking in some librarys that we need
 *.war
 *.ear
+/Gcal2xls.dat
+/target
