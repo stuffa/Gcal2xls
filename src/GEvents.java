@@ -40,7 +40,7 @@ public class GEvents extends LinkedList<GEvent>
     // to get the URL of the next page of results.
     // BUT.. queries are not feeds and they are not paged, so we are left with simply 
     // setting a large number for the MAX number of results/entries returned.
-    // TODO: Try and remove this hard limit if I can.
+    // FIXME: Try and remove this hard limit if I can.
     private static final int	MAX_ENTRIES	= 10000;
 
     private static final long serialVersionUID	= 1L;
@@ -336,31 +336,31 @@ public class GEvents extends LinkedList<GEvent>
         // write the labels on the first row
         int col = 0;
         
-        Label labelCalendar = new Label(col++, 0, "Calendar", labelFormat);
+        Label labelCalendar = new Label(col++, 0, Gcal2xls.res.getString("events.calendar.label"), labelFormat);
         sheet.addCell(labelCalendar);
 
-        Label labelName = new Label(col++, 0, "Attendee", labelFormat);
+        Label labelName = new Label(col++, 0, Gcal2xls.res.getString("events.attendee.label"), labelFormat);
         sheet.addCell(labelName);
 
-        Label labelEmail = new Label(col++, 0, "Email", labelFormat);
+        Label labelEmail = new Label(col++, 0, Gcal2xls.res.getString("events.email.label"), labelFormat);
         sheet.addCell(labelEmail);
 
-        Label labelTask = new Label(col++, 0, "Task", labelFormat);
+        Label labelTask = new Label(col++, 0, Gcal2xls.res.getString("events.task.label"), labelFormat);
         sheet.addCell(labelTask);
         
-        Label labelCount = new Label(col++, 0, "Attendee Count", labelFormat);
+        Label labelCount = new Label(col++, 0, Gcal2xls.res.getString("events.count.label"), labelFormat);
         sheet.addCell(labelCount);
         
-        Label labelHours = new Label(col++, 0, "Hours", labelFormat);
+        Label labelHours = new Label(col++, 0, Gcal2xls.res.getString("events.hours.label"), labelFormat);
         sheet.addCell(labelHours);
 
-        Label labelStart = new Label(col++, 0, "Start", labelFormat);
+        Label labelStart = new Label(col++, 0, Gcal2xls.res.getString("events.start.label"), labelFormat);
         sheet.addCell(labelStart);
 
-        Label labelEnds = new Label(col++, 0, "End", labelFormat);
+        Label labelEnds = new Label(col++, 0, Gcal2xls.res.getString("events.end.label"), labelFormat);
         sheet.addCell(labelEnds);
 
-        Label labelDescription = new Label(col++, 0, "Description", labelFormat);
+        Label labelDescription = new Label(col++, 0, Gcal2xls.res.getString("events.desc.label"), labelFormat);
         sheet.addCell(labelDescription);
 
         // leave a blank row
@@ -436,9 +436,16 @@ public class GEvents extends LinkedList<GEvent>
         csvWriter = new BufferedWriter(csvFile);
 
         // write the header
-        csvWriter.write( "\"Calendar\",\"Attendee\",\"Email\",\"Task\",\"Attendee Count\",\"Hours\",\"Start\",\"Ends\",\"Description\"\n");
-        // leave a blank row
-        csvWriter.write("\n");
+        csvWriter.write(
+                encodeCVS(Gcal2xls.res.getString("events.calendar.label")) + "," +
+                encodeCVS(Gcal2xls.res.getString("events.attendee.label")) + "," +
+                encodeCVS(Gcal2xls.res.getString("events.email.label")) + "," +
+                encodeCVS(Gcal2xls.res.getString("events.task.label")) + "," +
+                encodeCVS(Gcal2xls.res.getString("events.count.label")) + "," +
+                encodeCVS(Gcal2xls.res.getString("events.hours.label")) + "," +
+                encodeCVS(Gcal2xls.res.getString("events.start.label")) + "," +
+                encodeCVS(Gcal2xls.res.getString("events.end.label")) + "," +
+                encodeCVS(Gcal2xls.res.getString("events.desc.label")) + "\n" );
         
         // now write events
         String row = null;

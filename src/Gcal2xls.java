@@ -57,15 +57,16 @@ import com.google.gdata.util.ServiceException;
 import com.toedter.calendar.JDateChooser;
 
 /**
- * Extract Events from Google Calendar and save to s spreadsheet 
+ * Extract Events from Google Calendar and save to a spreadsheet 
  *  
  * @author Chris Martin
  */
 
+
 public class Gcal2xls extends JFrame implements ActionListener, WindowListener, MouseListener, KeyListener
 {
     private static final long serialVersionUID = 3L;
-    private static final String version = "2.02";
+    private static final String version = "2.03";
     private static final String googleApiId = "cc.martin.gcal2xls-" + version;
         
     private JTextField username;
@@ -99,13 +100,13 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
     private JButton extractDates;
       
     private final String DATE_FORMAT_PATTERN = "yyyy-MM-dd";
-    private SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_PATTERN);;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_PATTERN);
     
     private GCalendars gCalendars = new GCalendars(googleApiId);
     
     // Localisation strings
-    private Locale locale = Locale.getDefault();
-    public ResourceBundle res = ResourceBundle.getBundle("resources.strings", locale);
+//    private Locale locale = Locale.getDefault();
+    public static ResourceBundle res = ResourceBundle.getBundle("resources.strings", Locale.getDefault());
  
    
       
