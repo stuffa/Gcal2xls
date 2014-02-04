@@ -289,7 +289,7 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         
         
         //The Extract Button
-        extractDates = new JButton(res.getString("gcal2xls.extract.label"));
+        extractDates = new JButton(res.getString("extract.label"));
         extractDates.addActionListener(this);
         container.add(extractDates, "gaptop 10, skip 1, align right");
 
@@ -436,17 +436,17 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
            }
            catch (AuthenticationException e)
            {
-               displayError(res.getString("gcal2xls.error.auth"), res.getString("gcal2xls.error.auth.invalid"));
+               displayError(res.getString("error.auth"), res.getString("error.auth.invalid"));
                return;
            }
            catch (IOException e)
            {
-               displayError(res.getString("gcal2xls.error.io"), e.getLocalizedMessage());
+               displayError(res.getString("error.io"), e.getLocalizedMessage());
                return;
            }
            catch (ServiceException e)
            {
-               displayError(res.getString("gcal2xls.error.service"), e.getLocalizedMessage());
+               displayError(res.getString("error.service"), e.getLocalizedMessage());
                return;
            }
            finally
@@ -456,7 +456,7 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         }
         else
         {
-            displayError(res.getString("gcal2xls.error.auth"), res.getString("gcal2xls.error.auth.missing"));
+            displayError(res.getString("error.auth"), res.getString("error.auth.missing"));
             return;
         }
     }
@@ -496,7 +496,7 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         }
         catch (NullPointerException e)
         {
-            displayError(res.getString("gcal2xls.error.start-date"), res.getString("gcal2xls.error.start-date.invalid"));
+            displayError(res.getString("error.start-date"), res.getString("error.start-date.invalid"));
             return;
         }
         
@@ -517,14 +517,14 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         }
         catch (NullPointerException e)
         {
-            displayError(res.getString("gcal2xls.error.end-date"), res.getString("gcal2xls.error.end-date.invalid"));
+            displayError(res.getString("error.end-date"), res.getString("error.end-date.invalid"));
             return;
         }
     
     	// check that the dates are correct
     	if (ends.getValue() < starts.getValue())
     	{
-            displayError(res.getString("gcal2xls.error.date-order"), res.getString("gcal2xls.error.date-order.invalid"));
+            displayError(res.getString("error.date-order"), res.getString("error.date-order.invalid"));
             return;
     	}
     	
@@ -545,17 +545,17 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         }
         catch (AuthenticationException e)
         {
-            displayError("Authentication Error:", "Please check User Name & Password");
+            displayError(res.getString("error.auth"), res.getString("error.auth.invalid"));
             return;
         }
         catch (IOException e)
         {
-            displayError("IO Error", e.getLocalizedMessage());
+            displayError(res.getString("error.io"), e.getLocalizedMessage());
             return;
         }
         catch (ServiceException e)
         {
-            displayError("Service Error", e.getLocalizedMessage());
+            displayError(res.getString("error.service"), e.getLocalizedMessage());
             return;
         }
         finally
@@ -564,7 +564,7 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         }
     	
        // The name of the spreadsheet
-       String fileName = dirName.getText() + System.getProperty("file.separator") + userName + " TimeSheet From " + dateFormat.format(startsDateChooser.getDate()) + " To " + dateFormat.format(endsDateChooser.getDate());
+       String fileName = dirName.getText() + System.getProperty("file.separator") + userName + res.getString("filename.from") + dateFormat.format(startsDateChooser.getDate()) + res.getString("filename.to") + dateFormat.format(endsDateChooser.getDate());
     
        // write the data in the selected format
         try
@@ -574,18 +574,18 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
             else if (doCsv.isSelected())
                 events.writeCsv(fileName);
             else
-                displayError("Error", "Unsupported Format");
+                displayError(res.getString("error"), res.getString("error.format"));
         }
         catch (IOException e)
         {
             // ToDo: display a error message
-            displayError("IO Error", e.getLocalizedMessage());
+            displayError(res.getString("error.io"), e.getLocalizedMessage());
             return;
         }
         catch (jxl.write.WriteException e)
         {
             // ToDo: display a error message
-            displayError("IO Error", e.getLocalizedMessage());
+            displayError(res.getString("error.io"), e.getLocalizedMessage());
             return;
         }
     
