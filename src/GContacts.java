@@ -35,7 +35,7 @@ public class GContacts
 	contactService.setUserCredentials(username, password);
 		  
 	// Get a list of all entries
-	URL contactsUrl = new URL("http://www.google.com/m8/feeds/contacts/" + username + "/base?max-results=" + MAX_ENTRIES);
+	URL contactsUrl = new URL("https://www.google.com/m8/feeds/contacts/" + username + "/base?max-results=" + MAX_ENTRIES);
 
 	while (contactsUrl != null)
 	{

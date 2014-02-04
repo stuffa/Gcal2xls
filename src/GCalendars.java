@@ -20,7 +20,7 @@ public class GCalendars extends Vector<GCalendar>
     private static final long serialVersionUID = 3L;
 
     // This is the URL that is used to query for the lost of Calendars from Google
-    private final String CALENDAR_LIST_URL = "http://www.google.com/calendar/feeds/default/allcalendars/full";
+    private final String CALENDAR_LIST_URL = "https://www.google.com/calendar/feeds/default/allcalendars/full";
 
     private String	googleApiId;
     private boolean	includeHiddenCalendars = false;
