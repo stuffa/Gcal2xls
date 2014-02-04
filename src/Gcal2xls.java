@@ -496,7 +496,7 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         }
         catch (NullPointerException e)
         {
-            displayError(res.getString("error.start-date"), res.getString("error.start-date.invalid"));
+            displayError(res.getString("error.start_date"), res.getString("error.start_date.invalid"));
             return;
         }
         
@@ -517,14 +517,14 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         }
         catch (NullPointerException e)
         {
-            displayError(res.getString("error.end-date"), res.getString("error.end-date.invalid"));
+            displayError(res.getString("error.end_date"), res.getString("error.end_date.invalid"));
             return;
         }
     
     	// check that the dates are correct
     	if (ends.getValue() < starts.getValue())
     	{
-            displayError(res.getString("error.date-order"), res.getString("error.date-order.invalid"));
+            displayError(res.getString("error.date_order"), res.getString("error.date_order.invalid"));
             return;
     	}
     	
