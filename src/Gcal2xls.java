@@ -131,7 +131,7 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         
 
         //initialise the main panel
-        setTitle(res.getString("gcal2xls.title") + version  );
+        setTitle(res.getString("gcal2xls.title") + version + "  Locale=" + Locale.getDefault().getDisplayName()  );
         setSize(500,700);
         setResizable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
