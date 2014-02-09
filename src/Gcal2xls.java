@@ -67,7 +67,7 @@ import com.toedter.calendar.JDateChooser;
 public class Gcal2xls extends JFrame implements ActionListener, WindowListener, KeyListener, MouseListener
 {
     private static final long serialVersionUID = 3L;
-    private static final String version = "2.03";
+    private static final String version = "2.04";
     public static final String googleApiId = "cc.martin.gcal2xls-" + version;
         
     private JLabel	username;
