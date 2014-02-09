@@ -33,7 +33,7 @@ import com.google.gdata.util.ServiceException;
  *
  */
 
-public class GEvents extends LinkedList<GEvent>
+public class GCalendarEvents extends LinkedList<GCalendarEvent>
 {
     // NOTE: Google by default set a limit of 25 entries
     // If this was a feed rather than a Query we would use result.getNextLink().getHref()
@@ -63,7 +63,7 @@ public class GEvents extends LinkedList<GEvent>
     private final int MILISECONDS_IN_MINUTE = 60 * 1000;
 
     
-    public GEvents(String googleApiId)
+    public GCalendarEvents(String googleApiId)
     {
 	this.googleApiId = googleApiId;
     }
@@ -93,18 +93,18 @@ public class GEvents extends LinkedList<GEvent>
     
     
     
-    public void addEvents(String userName, String userPassword, GCalendars gCalendars, DateTime starts, DateTime ends) throws IOException, ServiceException
+    public void addEvents(String userName, char[] userPassword, GCalendars gCalendars, DateTime starts, DateTime ends) throws IOException, ServiceException
     {
 		// Before we add any Events - first update the contacts so that we can use them to look up
 		// appointments that only have email address
 		contacts = new GContacts(googleApiId);
-		contacts.update(userName, userPassword);
+		contacts.update(userName, new String(userPassword));
 		
 		// This is the Google Calendar service we will be using
         CalendarService myService = new CalendarService(googleApiId);
 
         // authenticate with the user credentials
-        myService.setUserCredentials(userName, userPassword);
+        myService.setUserCredentials(userName, new String(userPassword));
 
         for (GCalendar gCalendar : gCalendars)
         {
@@ -223,7 +223,7 @@ public class GEvents extends LinkedList<GEvent>
                 if ( entry.getParticipants().size() == 0 )   
                 {
                     // make the entry 
-                    GEvent event = new GEvent();
+                    GCalendarEvent event = new GCalendarEvent();
                     event.setCalendarName(gCalendar.getName());
                     event.setTask(entry.getTitle().getPlainText());
                     event.setStarts(when.getStartTime());
@@ -240,7 +240,7 @@ public class GEvents extends LinkedList<GEvent>
                         for (EventWho attendee : entry.getParticipants())
                         {
                             // make the entry
-                            GEvent event = new GEvent();
+                            GCalendarEvent event = new GCalendarEvent();
                             event.setCalendarName(gCalendar.getName());
                             event.setTask(entry.getTitle().getPlainText());
                             event.setStarts(when.getStartTime());
@@ -300,7 +300,7 @@ public class GEvents extends LinkedList<GEvent>
                         }
                         
                         // make the entry
-                        GEvent event = new GEvent();
+                        GCalendarEvent event = new GCalendarEvent();
                         event.setCalendarName(gCalendar.getName());
                         event.setTask(entry.getTitle().getPlainText());
                         event.setStarts(when.getStartTime());
@@ -366,7 +366,7 @@ public class GEvents extends LinkedList<GEvent>
         // leave a blank row
         int row = 2;
 
-        for ( GEvent event : this)
+        for ( GCalendarEvent event : this)
         {
             col = 0;
             
@@ -449,7 +449,7 @@ public class GEvents extends LinkedList<GEvent>
         
         // now write events
         String row = null;
-        for ( GEvent event : this)
+        for ( GCalendarEvent event : this)
         {
             row = encodeCVS(event.getCalendarName())  + "," + encodeCVS(event.getAttendeeName()) + "," +
             	  encodeCVS(event.getAttendeeEmail()) + "," + encodeCVS(event.getTask())         + "," +

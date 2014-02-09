@@ -8,7 +8,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -34,6 +33,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Cursor;
+import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
@@ -63,16 +64,18 @@ import com.toedter.calendar.JDateChooser;
  */
 
 
-public class Gcal2xls extends JFrame implements ActionListener, WindowListener, MouseListener, KeyListener
+public class Gcal2xls extends JFrame implements ActionListener, WindowListener, KeyListener, MouseListener
 {
     private static final long serialVersionUID = 3L;
     private static final String version = "2.03";
-    private static final String googleApiId = "cc.martin.gcal2xls-" + version;
+    public static final String googleApiId = "cc.martin.gcal2xls-" + version;
         
-    private JTextField username;
-    private JPasswordField password;
+    private JLabel	username;
+    private char[]	password  = {};
+    
+    private JButton     newLogon;
       
-    private JList       calendarChooser;
+    private JList <GCalendar>       calendarChooser;
     private JScrollPane gCalenderscrollPane;
      
     private JDateChooser startsDateChooser;
@@ -87,25 +90,22 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
     private JRadioButton doCsv;
     private JPanel 	 formatChooser;
     
-//    private JCheckBox checkAll;
-
-    private JCheckBox includeHiddenCalendars;
-    private JCheckBox seperateAttendees;
-    private JCheckBox excludeAllDayEvents;
-    private JCheckBox removeOwnerFromAttendees;
-    private JCheckBox truncateDates;
+    private JCheckBox	includeHiddenCalendars;
+    private JCheckBox	seperateAttendees;
+    private JCheckBox	excludeAllDayEvents;
+    private JCheckBox	removeOwnerFromAttendees;
+    private JCheckBox	truncateDates;
     
-    private JButton clearCalList;
-    private JButton updateCalList;
-    private JButton extractDates;
-      
+    private JButton	extractDates;
+
+    private GLogin	gLogin;
+    
     private final String DATE_FORMAT_PATTERN = "yyyy-MM-dd";
     private SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_PATTERN);
     
     private GCalendars gCalendars = new GCalendars(googleApiId);
-    
+        
     // Localisation strings
-//    private Locale locale = Locale.getDefault();
     public static ResourceBundle res = ResourceBundle.getBundle("resources.strings", Locale.getDefault());
  
    
@@ -116,7 +116,9 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
     public Gcal2xls()
     {
         Container container = getContentPane();
-        container.setLayout(new MigLayout("", "[][grow][::135]","[][][][][][grow][]"));
+        container.setLayout(new MigLayout("", "[][grow][::135]","[][][][][grow][][][][][][][][][][][]"));
+        setMinimumSize(new Dimension(500, 700));
+        setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
         
         // Try to set the look and feel
         try
@@ -131,57 +133,40 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         
 
         //initialise the main panel
-        setTitle(res.getString("gcal2xls.title") + version + "  Locale=" + Locale.getDefault().getDisplayName()  );
-        setSize(500,700);
+        setTitle(res.getString("gcal2xls.title") + version + "  " + res.getString("gcal2xls.locale") + Locale.getDefault().getDisplayName()  );
+        setSize(500,720);
         setResizable(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         addWindowListener(this);
 
-        // Login detail separator
+        // Authentication separator
         container.add(new JHeading(res.getString("authentication.heading")), "split, span, gaptop 10");
-        container.add(new JSeparator(),             "growx, wrap, gaptop 10");
+        container.add(new JSeparator(), "growx, wrap, gaptop 10");
 
         // username
-        username = new JTextField();
-        username.setToolTipText(res.getString("authentication.id.tooltip"));
-        container.add(new JLabel(res.getString("authentication.id.label")));
-        container.add(username, "growx");
-        container.add(new JHint(res.getString("authentication.id.hint")), "wrap");
+        container.add(new JLabel(Gcal2xls.res.getString("authentication.id.label")));
+        username = new JLabel();
+        container.add(username);
 
-        // password
-      	password = new JPasswordField();
-        password.setToolTipText(res.getString("authentication.passwd.tooltip"));
-        container.add(new JLabel(res.getString("authentication.passwd.label")));
-        container.add(password, "growx");
-        container.add(new JHint(res.getString("authentication.passwd.hint")), "wrap");
-
+        // Change logon button
+        newLogon = new JButton(res.getString("authentication.newlogon"));
+        newLogon.addActionListener(this);
+        container.add(newLogon, "gapright push, wrap");
+        
         // calendar detail separator
         container.add(new JHeading(res.getString("calendars.heading")), "split, span, gaptop 10");
-        container.add(new JSeparator(),          "growx, wrap, gaptop 10");
+        container.add(new JSeparator(), "growx, wrap, gaptop 10");
         
-        //The clearCalList  Button
-//        clearCalList = new JButton("Clear List");
-//        clearCalList.addActionListener(this);
-//        container.add(clearCalList, "skip 1, split 2");
-
-        // CheckAll button
-//        checkAll = new JCheckBox("Check All");
-//        container.add(checkAll, "skip 1, split 2");
-
         // Select Hidden Calendars
         includeHiddenCalendars = new JCheckBox(res.getString("calendars.includeHiddenCalendars.label"));
         includeHiddenCalendars.setToolTipText(res.getString("calendars.includeHiddenCalendars.tooltip"));
+        includeHiddenCalendars.addActionListener(this);
         container.add(includeHiddenCalendars, "skip 1, gapright push, wrap");
-
-        // The updateCalList Button
-        updateCalList = new JButton(res.getString("calendars.update.label"));
-        updateCalList.addActionListener(this);
-        container.add(updateCalList, "skip 1, gapright push, wrap");
 
         // The list of gCalenders
         // Note we haven't got a list of gCalenders yet so they can't be displayed
         // This is an empty list that we add to latter
-        calendarChooser = new JList(gCalendars);
+        calendarChooser = new JList<GCalendar>(gCalendars);
         calendarChooser.setToolTipText(res.getString("calendars.list.tooltip"));
         CheckListCellRenderer renderer = new CheckListCellRenderer();
         calendarChooser.setCellRenderer(renderer);
@@ -190,9 +175,13 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         calendarChooser.addKeyListener(this);
         gCalenderscrollPane = new JScrollPane();
         gCalenderscrollPane.getViewport().add(calendarChooser);
-        container.add(new JLabel(res.getString("calendars.list.label")));
-        container.add(gCalenderscrollPane, "growx, growy");
+        container.add(gCalenderscrollPane, "skip 1, growx, growy");
         container.add(new JHint(res.getString("calendars.list.hint")), "wrap");
+        
+        // Date separator
+        container.add(new JHeading(res.getString("calenders.date.heading")), "split, span, gaptop 10");
+        container.add(new JSeparator(), "growx, wrap, gaptop 10");
+        
         
         //Start Date Choosers
       	startsDateChooser = new JDateChooser(new Date(), DATE_FORMAT_PATTERN);
@@ -233,7 +222,6 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         // add the radio buttons to the layout
         container.add(new JLabel(res.getString("options.format.label")));
         container.add(formatChooser, "wrap");
-
 
       	// Output File Location
         container.add(new JLabel(res.getString("options.location.label")));
@@ -298,7 +286,11 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         // populate with saved data
         this.loadUserInfo();
 
+        setEnabled(false);
         setVisible(true);
+        
+	gLogin = new GLogin(this, username.getText());
+	getGoogleAccount();
     }
 
     /*
@@ -314,17 +306,16 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         return;
       }
       
-      if ( object == updateCalList )
+      if ( object == includeHiddenCalendars )
       {
           populateCalendarList();
           return;
       }
 
-      if ( object == clearCalList )
+      if (object == newLogon)
       {
-	  gCalendars.clear();
-          calendarChooser.setListData(gCalendars);
-          return;
+	  getGoogleAccount();
+	  return;
       }
       
       if ( object == dirChooserBtn )
@@ -338,7 +329,34 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
       return;
 
     }
-  
+    
+    private void getGoogleAccount()
+    {
+	// prevent the user from using the main dialog controls
+	setEnabled(false);
+	
+	// Make the modal login window visible
+	gLogin.setVisible(true);
+
+	if ( gLogin.isValidated() )
+	{
+	    username.setText(gLogin.getUsername());
+	    password	= gLogin.getPassword();
+	    gCalendars	= gLogin.getCalendars();
+	    calendarChooser.setListData(gCalendars);
+	}
+	else
+	{
+	    // Check that we have a valid login and password
+	    // if not then we will exit
+	    if ((username.getText().length() == 0) || (password.length == 0) )
+		dispose();
+	}
+
+	// allow the main dialog to be used again
+	setEnabled(true);
+    }
+    
     
     /*
      * WindowClosingListener 
@@ -376,10 +394,11 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
     /*
      * Mouse Listener
      */
-    
+
+// FIXME NOt called     
     public void mouseClicked(MouseEvent e)
     {
-            doCheck();
+	doCheck();
     }
 
     public void mousePressed(MouseEvent e) {}
@@ -406,7 +425,7 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
 
 
     /*
-     * Check 
+     * This used to allow a " " (Space) to toggle a checkbox - ie: select a calendar etc 
      */
     
     protected void doCheck()
@@ -414,16 +433,15 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         int index = calendarChooser.getSelectedIndex();
         if (index < 0)
             return;
-        GCalendar gCalendar = (GCalendar)calendarChooser.getModel().getElementAt(index);
+        GCalendar gCalendar = calendarChooser.getModel().getElementAt(index);
         gCalendar.invertSelection();
         calendarChooser.repaint();
     }
 
-      
     private void populateCalendarList()
     {
         // Check password and name fields to see if we have any.
-        if ( (username.getText().length() != 0) && (password.getPassword().length != 0) )
+        if ( (username.getText().length() != 0) && (password.length != 0) )
         {
             // make a busy cursor
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -432,7 +450,7 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
            try
            {
                gCalendars.setIncludeHiddenCalendars(includeHiddenCalendars.isSelected());
-               gCalendars.update(username.getText(), new String(password.getPassword()));
+               gCalendars.update(username.getText(), new String(password));
                calendarChooser.setListData(gCalendars);
            }
            catch (AuthenticationException e)
@@ -469,8 +487,6 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
   
     private void extract_actionPerformed(ActionEvent event)
     {
-      	String userName 	= username.getText();
-        String userPassword = new String (password.getPassword());
 
         DateTime starts;
         DateTime ends;
@@ -531,7 +547,7 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
     	
     	
         // fetch the events data from the calendar
-    	GEvents events = new GEvents(googleApiId);
+    	GCalendarEvents events = new GCalendarEvents(googleApiId);
     	events.seperateAttendees(seperateAttendees.isSelected());
     	events.excludeAllDayEvents(excludeAllDayEvents.isSelected());
     	events.removeOwnerFromAttendees(removeOwnerFromAttendees.isSelected());
@@ -542,7 +558,7 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
 
         try
         {
-            events.addEvents(userName, userPassword, gCalendars, starts, ends);
+            events.addEvents(username.getText(), password, gCalendars, starts, ends);
         }
         catch (AuthenticationException e)
         {
@@ -565,7 +581,7 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         }
     	
        // The name of the spreadsheet
-       String fileName = dirName.getText() + System.getProperty("file.separator") + userName + res.getString("filename.from") + dateFormat.format(startsDateChooser.getDate()) + res.getString("filename.to") + dateFormat.format(endsDateChooser.getDate());
+       String fileName = dirName.getText() + System.getProperty("file.separator") + username.getText() + res.getString("filename.from") + dateFormat.format(startsDateChooser.getDate()) + res.getString("filename.to") + dateFormat.format(endsDateChooser.getDate());
     
        // write the data in the selected format
         try
@@ -697,15 +713,6 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
                 gCalendars = new GCalendars(googleApiId);
                 calendarChooser.setListData(gCalendars);
             }
-        }
-        finally
-        {
-            if (username.getText().length() == 0)
-                // set the focus on the user name
-                username.requestFocus();
-            else
-                // put the focus on the password
-                password.requestFocus();
         }
 
         return;

@@ -6,7 +6,7 @@ import com.google.gdata.data.DateTime;
  */
 
 
-public class GEvent
+public class GCalendarEvent
 {
   private final int MILISECONDS_IN_HOUR   = 60 * 60 * 1000;
 
@@ -20,7 +20,7 @@ public class GEvent
   private String    description;
 
   
-  public GEvent()
+  public GCalendarEvent()
   {
     calendarName     = "";
   	task             = "";
