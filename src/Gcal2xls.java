@@ -34,7 +34,6 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dialog;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
@@ -117,7 +116,6 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
     {
         Container container = getContentPane();
         container.setLayout(new MigLayout("", "[][grow][::135]","[][][][][grow][][][][][][][][][][][]"));
-        setMinimumSize(new Dimension(500, 700));
         setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
         
         // Try to set the look and feel
@@ -134,8 +132,6 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
 
         //initialise the main panel
         setTitle(res.getString("gcal2xls.title") + version + "  " + res.getString("gcal2xls.locale") + Locale.getDefault().getDisplayName()  );
-        setSize(500,720);
-        setResizable(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         addWindowListener(this);
 
@@ -280,12 +276,15 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         //The Extract Button
         extractDates = new JButton(res.getString("extract.label"));
         extractDates.addActionListener(this);
-        container.add(extractDates, "gaptop 10, skip 1, align right");
+        container.add(extractDates, "gaptop 10, skip 1, align right, gapbottom 15");
 
         
         // populate with saved data
         this.loadUserInfo();
 
+        pack();
+        setMinimumSize(getSize());
+        setResizable(true);
         setEnabled(false);
         setVisible(true);
         
@@ -720,7 +719,7 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
 
 }
 
-class CheckListCellRenderer extends JCheckBox implements ListCellRenderer
+class CheckListCellRenderer extends JCheckBox implements ListCellRenderer <GCalendar>
 {
     private static final long serialVersionUID = 1L;
     protected static Border m_noFocusBorder = new EmptyBorder(1, 1, 1, 1);
@@ -732,8 +731,8 @@ class CheckListCellRenderer extends JCheckBox implements ListCellRenderer
         setBorder(m_noFocusBorder);
     }
 
-    public Component getListCellRendererComponent(JList list,
-        Object value, int index, boolean isSelected, boolean cellHasFocus)
+    public Component getListCellRendererComponent(JList<? extends GCalendar> list,
+        GCalendar value, int index, boolean isSelected, boolean cellHasFocus)
     {
 	// Set the display value
         setText(value.toString());

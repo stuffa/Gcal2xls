@@ -1,6 +1,5 @@
 import java.awt.Container;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -49,7 +48,7 @@ public class GLogin extends JDialog implements ActionListener   //WindowListener
 	super(parent, true);
 	
         Container container = getContentPane();
-        container.setLayout(new MigLayout("", "[][grow][::135]","[][][][]"));
+        container.setLayout(new MigLayout("", "[][:270:][::135]","[][][][]"));
     
         // Try to set the look and feel
         try
@@ -65,20 +64,18 @@ public class GLogin extends JDialog implements ActionListener   //WindowListener
         SwingUtilities.updateComponentTreeUI(container);
         //initialise the main panel
         setTitle(Gcal2xls.res.getString("login.title"));
-        setResizable(false);
-        setMinimumSize(new Dimension(500, 200));
         setModal(true);
         setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
     
         // Login detail separator
         container.add(new JHeading(Gcal2xls.res.getString("login.heading")), "split, span, gaptop 10");
-        container.add(new JSeparator(),             "growx, wrap, gaptop 10");
+        container.add(new JSeparator(), "growx, wrap, gaptop 10");
     
         // username
         username = new JTextField();
         username.setText(glogon);
         username.setToolTipText(Gcal2xls.res.getString("authentication.id.tooltip"));
-        container.add(new JLabel(Gcal2xls.res.getString("authentication.id.label")));
+        container.add(new JLabel(Gcal2xls.res.getString("authentication.id.label")) );
         container.add(username, "growx");
         container.add(new JHint(Gcal2xls.res.getString("authentication.id.hint")), "wrap");
     
@@ -92,7 +89,13 @@ public class GLogin extends JDialog implements ActionListener   //WindowListener
         //The Login Button
         login = new JButton(Gcal2xls.res.getString("login.button"));
         login.addActionListener(this);
-        container.add(login, "gaptop 10, skip 1, align right");
+        container.add(login, "gaptop 10, skip 1, align right, gapbottom 15");
+
+        pack();
+        setResizable(false);
+        
+        transferFocus();
+        
         
         // Set the focus to the appropriate field
         if (username.getText().length() == 0)
