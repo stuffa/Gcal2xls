@@ -135,7 +135,7 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         addWindowListener(this);
 
-        // Authentication separator
+        // Authentication header
         container.add(new JHeading(res.getString("account.heading")), "split, span, gaptop 10");
         container.add(new JSeparator(), "growx, wrap, gaptop 10");
 
@@ -149,7 +149,7 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         newLogon.addActionListener(this);
         container.add(newLogon, "gapright push, wrap");
         
-        // calendar detail separator
+        // Calendar header
         container.add(new JHeading(res.getString("calendars.heading")), "split, span, gaptop 10");
         container.add(new JSeparator(), "growx, wrap, gaptop 10");
         
@@ -178,32 +178,31 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         container.add(new JHeading(res.getString("calenders.date.heading")), "split, span, gaptop 10");
         container.add(new JSeparator(), "growx, wrap, gaptop 10");
         
-        
         //Start Date Choosers
       	startsDateChooser = new JDateChooser(new Date(), DATE_FORMAT_PATTERN);
       	container.add(new JLabel(res.getString("calendars.start.label")));
         container.add(startsDateChooser, "growx");
-      	container.add(new JHint(res.getString("calendars.start.tooltip")), "wrap");
+      	container.add(new JHint(res.getString("calendars.start.hint")), "wrap");
 
       	//End Date Choosers
       	endsDateChooser = new JDateChooser(new Date(), DATE_FORMAT_PATTERN);
       	container.add(new JLabel(res.getString("calendars.end.label")));
         container.add(endsDateChooser,"growx");
-      	container.add(new JHint(res.getString("calendars.end.tooltip")), "wrap");
+      	container.add(new JHint(res.getString("calendars.end.hint")), "wrap");
 
-        // calendar detail separator
-        container.add(new JHeading(res.getString("options.heading")), "split, span, gaptop 10");
+        // File header
+        container.add(new JHeading(res.getString("file.heading")), "split, span, gaptop 10");
         container.add(new JSeparator(),               "growx, wrap, gaptop 10");
-      	
+        
       	//Setup the radio buttons
-        doXls = new JRadioButton(res.getString("options.format.xls.label"));
+        doXls = new JRadioButton(res.getString("file.format.xls.label"));
         doXls.setActionCommand("xls");
-        doXls.setToolTipText(res.getString("options.format.xls.tooltip"));
+        doXls.setToolTipText(res.getString("file.format.xls.tooltip"));
         doXls.setSelected(true);
 
-        doCsv = new JRadioButton(res.getString("options.format.csv.label"));
+        doCsv = new JRadioButton(res.getString("file.format.csv.label"));
         doCsv.setActionCommand("csv");
-        doCsv.setToolTipText(res.getString("options.format.csv.tooltip"));
+        doCsv.setToolTipText(res.getString("file.format.csv.tooltip"));
         
         //Group the radio buttons.
         conversionFormat = new ButtonGroup();
@@ -216,11 +215,11 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         formatChooser.add(doCsv);
 
         // add the radio buttons to the layout
-        container.add(new JLabel(res.getString("options.format.label")));
+        container.add(new JLabel(res.getString("file.format.label")));
         container.add(formatChooser, "wrap");
 
       	// Output File Location
-        container.add(new JLabel(res.getString("options.location.label")));
+        container.add(new JLabel(res.getString("file.location.label")));
       	
       	dirName = new JTextField(); 
         container.add(dirName, "growx, split 2");
@@ -232,7 +231,7 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
      	dirChooserBtn.addActionListener(this);
         // The Folder Chooser
         dirChooser = new JFileChooser();
-        dirChooser.setDialogTitle(res.getString("options.location.path.label"));
+        dirChooser.setDialogTitle(res.getString("file.location.path.label"));
         dirChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         dirChooser.setAcceptAllFileFilterUsed(false);
         // set the default 
@@ -252,8 +251,11 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
             }
         }
         container.add(dirChooserBtn);
-      	container.add(new JHint(res.getString("options.location.button.label")), "wrap");
+      	container.add(new JHint(res.getString("file.location.button.label")), "wrap");
 
+        // Options header
+        container.add(new JHeading(res.getString("options.heading")), "split, span, gaptop 10");
+        container.add(new JSeparator(),               "growx, wrap, gaptop 10");
         
         // The options
         removeOwnerFromAttendees = new JCheckBox(res.getString("options.cb1.label"));
