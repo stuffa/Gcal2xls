@@ -8,7 +8,7 @@ To run the application you will require Java 1.5 or higher.  Depending on your s
     java -jar Gcal2xls
 
 #### Hidden Calendars
-If you have a large number of calenders, some may be hidden.  This option will allow then to be seen in the list of calenders.
+If you have a large number of calenders, some may be hidden.  This option will allow them all to be visable in the list of calenders.
 
 #### Calenders
 You can export the events fom multiple calendars.  Select the ones you want to export events from
