@@ -74,17 +74,17 @@ public class GLogin extends JDialog implements ActionListener   //WindowListener
         // username
         username = new JTextField();
         username.setText(glogon);
-        username.setToolTipText(Gcal2xls.res.getString("authentication.id.tooltip"));
-        container.add(new JLabel(Gcal2xls.res.getString("authentication.id.label")) );
+        username.setToolTipText(Gcal2xls.res.getString("login.id.tooltip"));
+        container.add(new JLabel(Gcal2xls.res.getString("login.id.label")) );
         container.add(username, "growx");
-        container.add(new JHint(Gcal2xls.res.getString("authentication.id.hint")), "wrap");
+        container.add(new JHint(Gcal2xls.res.getString("login.id.hint")), "wrap");
     
         // password
       	password = new JPasswordField();
-        password.setToolTipText(Gcal2xls.res.getString("authentication.passwd.tooltip"));
-        container.add(new JLabel(Gcal2xls.res.getString("authentication.passwd.label")));
+        password.setToolTipText(Gcal2xls.res.getString("login.passwd.tooltip"));
+        container.add(new JLabel(Gcal2xls.res.getString("login.passwd.label")));
         container.add(password, "growx");
-        container.add(new JHint(Gcal2xls.res.getString("authentication.passwd.hint")), "wrap");
+        container.add(new JHint(Gcal2xls.res.getString("login.passwd.hint")), "wrap");
         
         //The Login Button
         login = new JButton(Gcal2xls.res.getString("login.button"));

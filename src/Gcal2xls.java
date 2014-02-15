@@ -136,16 +136,16 @@ public class Gcal2xls extends JFrame implements ActionListener, WindowListener, 
         addWindowListener(this);
 
         // Authentication separator
-        container.add(new JHeading(res.getString("authentication.heading")), "split, span, gaptop 10");
+        container.add(new JHeading(res.getString("account.heading")), "split, span, gaptop 10");
         container.add(new JSeparator(), "growx, wrap, gaptop 10");
 
         // username
-        container.add(new JLabel(Gcal2xls.res.getString("authentication.id.label")));
+        container.add(new JLabel(Gcal2xls.res.getString("account.label")));
         username = new JLabel();
         container.add(username);
 
         // Change logon button
-        newLogon = new JButton(res.getString("authentication.newlogon"));
+        newLogon = new JButton(res.getString("account.newlogon"));
         newLogon.addActionListener(this);
         container.add(newLogon, "gapright push, wrap");
         
